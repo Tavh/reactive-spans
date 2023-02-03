@@ -8,18 +8,14 @@ import java.time.Duration
 
 @RestController
 @RequestMapping("span")
-class SpanController (val spanRepository: SpanRepository) {
-    @PostMapping
-    fun create(@RequestBody span: Span) = spanRepository.save(span)
-
+class SpanController (val reactiveSpanRepository: ReactiveSpanRepository) {
     @GetMapping
-    fun getAll(): Flux<Span> = spanRepository.findAll().zipWith(
-        Flux.interval(Duration.ofMillis(1)
-    )).map {
-        println(Thread.currentThread().id)
-        it.t1
-    }
+    fun all(): Flux<Span> =
+            reactiveSpanRepository
+            .findAll()
+            .zipWith(Flux.interval(Duration.ofMillis(2000)))
+            .map { it.t1 }
 
     @GetMapping("count")
-    fun count(): Mono<Long> = spanRepository.count()
+    fun count(): Mono<Long> = reactiveSpanRepository.count()
 }

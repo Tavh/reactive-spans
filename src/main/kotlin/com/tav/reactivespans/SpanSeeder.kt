@@ -1,6 +1,5 @@
 package com.tav.reactivespans
 
-import com.fasterxml.jackson.databind.node.JsonNodeFactory
 import com.tav.reactivespans.model.Span
 import org.springframework.boot.ApplicationArguments
 import org.springframework.boot.ApplicationRunner
@@ -8,18 +7,16 @@ import org.springframework.stereotype.Component
 import java.util.*
 
 @Component
-class SpanSeeder(private val spanRepository: SpanRepository) : ApplicationRunner {
+class SpanSeeder(private val spanRepository: ReactiveSpanRepository) : ApplicationRunner {
 
     private val random = Random()
 
     override fun run(args: ApplicationArguments?) {
-        val amt = 0
+        val amt = 5000
         val spanIds = (1..amt).map { UUID.randomUUID().toString() }
         val traceIds = (1..amt).map { UUID.randomUUID().toString() }
         val parentSpanIds = (1..amt).map { UUID.randomUUID().toString() }
         val names = (1..amt).map { "span-$it" }
-        val statusMessages = (1..amt).map { "status-message-$it" }
-        val spanAttributes = (1..amt).map { JsonNodeFactory.instance.objectNode().put("attribute-$it", "value-$it") }
 
         (0 until amt).forEach { i ->
             spanRepository.save(Span(
@@ -31,14 +28,6 @@ class SpanSeeder(private val spanRepository: SpanRepository) : ApplicationRunner
                 kind = random.nextInt(3),
                 startTimeUnixNano = System.currentTimeMillis(),
                 endTimeUnixNano = System.currentTimeMillis() + random.nextInt(amt),
-                durationMilis = random.nextLong(50000),
-                droppedSpanAttributesCount = random.nextInt(100),
-                droppedResourceAttributesCount = random.nextInt(100),
-                droppedEventsCount = random.nextInt(100),
-                droppedLinksCount = random.nextInt(100),
-                statusMessage = if (i % 2 == 0) statusMessages[i] else null,
-                statusCode = if (i % 2 == 0) random.nextInt(100) else null,
-                ingestionTimeUnixNano = System.currentTimeMillis(),
             )).subscribe{s -> println(s)}
         }
     }

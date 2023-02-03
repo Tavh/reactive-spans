@@ -1,7 +1,5 @@
 package com.tav.reactivespans.model
 
-import com.fasterxml.jackson.databind.JsonNode
-import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.Table
 
@@ -30,28 +28,4 @@ data class Span(
 
     @Column("end_time_unix_nano")
     val endTimeUnixNano: Long,
-
-    @Column("duration_milis")
-    val durationMilis: Long,
-
-    @Column("dropped_span_attributes_count")
-    val droppedSpanAttributesCount: Int,
-
-    @Column("dropped_resource_attributes_count")
-    val droppedResourceAttributesCount: Int,
-
-    @Column("dropped_events_count")
-    val droppedEventsCount: Int,
-
-    @Column("dropped_links_count")
-    val droppedLinksCount: Int,
-
-    @Column("status_message")
-    val statusMessage: String?,
-
-    @Column("status_code")
-    val statusCode: Int?,
-
-    @Column("ingestion_time_unix_nano")
-    val ingestionTimeUnixNano: Long,
 )
