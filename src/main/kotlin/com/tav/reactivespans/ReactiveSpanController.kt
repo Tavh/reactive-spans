@@ -14,8 +14,8 @@ class ReactiveSpanController (val reactiveSpanRepository: ReactiveSpanRepository
     fun all(): Flux<Span> =
             reactiveSpanRepository
             .findAll()
-            .zipWith(Flux.interval(Duration.ofMillis(2000)))
-            .map { it.t1 }
+//            .zipWith(Flux.interval(Duration.ofMillis(2000)))
+//            .map { it.t1 }
 
     @GetMapping("count")
     fun count(): Mono<Long> = reactiveSpanRepository.count()
