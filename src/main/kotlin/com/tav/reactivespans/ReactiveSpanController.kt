@@ -6,9 +6,10 @@ import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import java.time.Duration
 
+
 @RestController
 @RequestMapping("span")
-class SpanController (val reactiveSpanRepository: ReactiveSpanRepository) {
+class ReactiveSpanController (val reactiveSpanRepository: ReactiveSpanRepository) {
     @GetMapping
     fun all(): Flux<Span> =
             reactiveSpanRepository
