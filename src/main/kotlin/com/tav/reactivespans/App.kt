@@ -9,4 +9,3 @@ class ReactiveSpansApplication
 fun main(args: Array<String>) {
 	runApplication<ReactiveSpansApplication>(*args)
 }
-
